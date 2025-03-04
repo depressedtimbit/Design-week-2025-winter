@@ -4,18 +4,11 @@ using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
 
+
 public class DotLogic : MonoBehaviour
 {
     public TextMeshPro numberDisplay;
     private int number;
-    public int maxNumber;
-    public int minNumber;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -31,9 +24,9 @@ public class DotLogic : MonoBehaviour
 
     private void incrementNumber()
     {
-        if (number >= maxNumber)
+        if (number >= DotSManager.maxNumber)
         {
-            number = minNumber;
+            number = DotSManager.minNumber;
         } else
         {
             number++;

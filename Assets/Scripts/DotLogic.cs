@@ -8,7 +8,7 @@ using Unity.VisualScripting;
 public class DotLogic : MonoBehaviour
 {
     public TextMeshPro numberDisplay;
-    private int number;
+    public int number;
 
     // Update is called once per frame
     void Update()
@@ -20,13 +20,15 @@ public class DotLogic : MonoBehaviour
     {
         incrementNumber();
         updateDisplay();
+        PuzzleManager.winCheck();
+        PuzzleManager.loseCheck();
     }
 
     private void incrementNumber()
     {
-        if (number >= DotSManager.maxNumber)
+        if (number >= PuzzleManager.maxNumber)
         {
-            number = DotSManager.minNumber;
+            number = PuzzleManager.minNumber;
         } else
         {
             number++;

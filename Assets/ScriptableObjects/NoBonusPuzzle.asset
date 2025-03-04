@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20967367c25f7d64b90657baef9f3e55, type: 3}
   m_Name: NoBonusPuzzle
   m_EditorClassIdentifier: 
-  puzzleSolution: 03000000030000000100000002000000
+  puzzleSolution: 01000000030000000200000000000000
   loseValue: 6

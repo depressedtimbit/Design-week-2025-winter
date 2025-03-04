@@ -45,26 +45,41 @@ public class AdditiveSceneManager : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             if (inMainScreen)
             {
-                // additively load the test scene
-                var parameters = new LoadSceneParameters(LoadSceneMode.Additive);
-                loadedScene = SceneManager.LoadScene(additiveSceneToLoad, parameters);
+                CurtainManager.instance.FadeIn(1).setOnComplete(() =>
+                {
+                    // additively load the test scene
+                    var parameters = new LoadSceneParameters(LoadSceneMode.Additive);
+                    loadedScene = SceneManager.LoadScene(additiveSceneToLoad, parameters);
 
-                // https://discussions.unity.com/t/find-gameobject-in-another-loaded-scene/245359/2
-                // use scene.getrootgameobjects if we need em later
+                    // https://discussions.unity.com/t/find-gameobject-in-another-loaded-scene/245359/2
+                    // use scene.getrootgameobjects if we need em later
+
+                    CurtainManager.instance.FadeOut(1);
+
+                    deactivateOnSceneLoad.SetActive(inMainScreen);
+                });
 
             }
             else
             {
-                // unload the test scene 
-                SceneManager.UnloadSceneAsync(loadedScene);
+                CurtainManager.instance.FadeIn(1).setOnComplete(() =>
+                {
+                    // unload the test scene 
+                    SceneManager.UnloadSceneAsync(loadedScene);
+
+                    deactivateOnSceneLoad.SetActive(inMainScreen);
+
+                    CurtainManager.instance.FadeOut(1);
+
+                });
+            
             }
 
             inMainScreen = !inMainScreen;
-            deactivateOnSceneLoad.SetActive(inMainScreen);
         }
     }
 

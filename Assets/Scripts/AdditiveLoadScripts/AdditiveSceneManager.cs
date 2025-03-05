@@ -6,13 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class AdditiveSceneManager : MonoBehaviour
 {
-    public GameObject screenA, screenB;
-
-    private bool atScreenA = true;
-
+    public static AdditiveSceneManager Instance { get; private set;}
+    
     // set to true while the main scene is active, i.e. when no puzzles / overlays are active
     // when false, ignores keypresses / clicks that would change the view
     private bool inMainScreen = true;
+
 
     // represents the root object of the currently loaded additive scene
     // when a scene is loaded in additively, all its root objects are parented to this object, so that they can be deleted instantly when we want to unload the scene
@@ -21,34 +20,34 @@ public class AdditiveSceneManager : MonoBehaviour
 
     // object that is set inactive when an additive scene is loaded, then active when the scene is de-loaded
     // for now, just the camera and eventsystem are parented to it, but later we could just parent the whole base scene to it
-    public GameObject deactivateOnSceneLoad;
-
-    // name of the test scene that will be loaded additively 
-    public string additiveSceneToLoad;
+    //public GameObject deactivateOnSceneLoad;
 
     private Scene loadedScene;
-
-    // Start is called before the first frame update
-    void Start()
+    
+    private GameObject deactivateOnSceneLoad;
+    
+    void Awake()
     {
-        SetScreens(atScreenA);
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else if (Instance != this)
+        {
+            Debug.Log("Multiple SceneManager's exist, deleting the latest one");
+            Destroy(this);
+        }
     }
 
+
     // Update is called once per frame
-    void Update()
+    public void LoadScene(string additiveSceneToLoad, GameObject deactivateOnSceneLoad)
     {
         if (inMainScreen)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
             {
-                SetScreens(!atScreenA);
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            if (inMainScreen)
-            {
+                inMainScreen = false;
+                this.deactivateOnSceneLoad = deactivateOnSceneLoad;
                 CurtainManager.instance.FadeIn(1).setOnComplete(() =>
                 {
                     // additively load the test scene
@@ -64,30 +63,24 @@ public class AdditiveSceneManager : MonoBehaviour
                 });
 
             }
-            else
-            {
-                CurtainManager.instance.FadeIn(1).setOnComplete(() =>
-                {
-                    // unload the test scene 
-                    SceneManager.UnloadSceneAsync(loadedScene);
-
-                    deactivateOnSceneLoad.SetActive(inMainScreen);
-
-                    CurtainManager.instance.FadeOut(1);
-
-                });
-            
-            }
-
-            inMainScreen = !inMainScreen;
-        }
+        else Debug.LogError("Tried to Load a puzzle whilst loaded in a puzzle, this is bad!");
     }
 
-    private void SetScreens(bool atScreenA)
+    public void unloadScene()
     {
-        this.atScreenA = atScreenA;
+        if (!inMainScreen)
+        {
+            inMainScreen = true;
+            CurtainManager.instance.FadeIn(1).setOnComplete(() =>
+            {
+                // unload the test scene 
+                SceneManager.UnloadSceneAsync(loadedScene);
 
-        screenA.SetActive(atScreenA);
-        screenB.SetActive(!atScreenA);
+                deactivateOnSceneLoad.SetActive(inMainScreen);
+
+                CurtainManager.instance.FadeOut(1);
+            });
+        }
+        else Debug.LogError("Tried to unload a puzzle without one being loaded, this is bad!");
     }
 }

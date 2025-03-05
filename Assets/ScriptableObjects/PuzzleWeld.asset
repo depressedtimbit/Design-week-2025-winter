@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canLose: 1
   puzzleSolution: 040000000500000002000000030000000500000003000000
+  unlockedToolID: 3

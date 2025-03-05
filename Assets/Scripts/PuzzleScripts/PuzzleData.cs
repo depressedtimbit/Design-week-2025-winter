@@ -7,4 +7,5 @@ public class PuzzleData : ScriptableObject
 {
     public bool canLose;
     public int[] puzzleSolution;
+    public int unlockedToolID;
 }

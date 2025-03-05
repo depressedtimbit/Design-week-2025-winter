@@ -10,6 +10,8 @@ public class DotLogic : MonoBehaviour
     public bool clickToIncrement = true;
     public TextMeshPro numberDisplay;
     public int number;
+    public List<DotLogic> connectedDots = new List<DotLogic>();
+
 
     void Update()
     {

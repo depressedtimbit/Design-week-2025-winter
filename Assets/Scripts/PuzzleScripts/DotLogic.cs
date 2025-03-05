@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 
 public class DotLogic : MonoBehaviour
 {
+    public bool clickToIncrement = true;
     public TextMeshPro numberDisplay;
     public int number;
 
@@ -17,21 +18,19 @@ public class DotLogic : MonoBehaviour
 
     private void OnMouseDown()
     {
-        incrementNumber();
-        updateDisplay();
-        PuzzleManager.winCheck();
-        PuzzleManager.loseCheck();
+        if (clickToIncrement)
+        {
+            incrementNumber();
+            PuzzleManager.winCheck();
+            PuzzleManager.loseCheck();
+            updateDisplay();
+        }
+        
     }
 
     private void incrementNumber()
     {
-        if (number >= PuzzleManager.maxNumber)
-        {
-            number = PuzzleManager.minNumber;
-        } else
-        {
-            number++;
-        }
+        number++;
     }
     private void updateDisplay()
     {

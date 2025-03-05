@@ -25,6 +25,7 @@ public class AdditiveSceneManager : MonoBehaviour
     private Scene loadedScene;
     
     private GameObject deactivateOnSceneLoad;
+    private string additiveSceneToLoad;
     
     void Awake()
     {
@@ -47,10 +48,11 @@ public class AdditiveSceneManager : MonoBehaviour
         if (inMainScreen)
             {
                 inMainScreen = false;
+                this.additiveSceneToLoad = additiveSceneToLoad;
                 this.deactivateOnSceneLoad = deactivateOnSceneLoad;
                 CurtainManager.instance.FadeIn(1).setOnComplete(() =>
                 {
-                    // additively load the test scene
+                    // additively load the scene
                     var parameters = new LoadSceneParameters(LoadSceneMode.Additive);
                     loadedScene = SceneManager.LoadScene(additiveSceneToLoad, parameters);
 
@@ -88,7 +90,12 @@ public class AdditiveSceneManager : MonoBehaviour
     {
         if (!inMainScreen)
         {
-            
+            // unload scene
+            SceneManager.UnloadSceneAsync(loadedScene);
+
+            // additively load the scene
+            var parameters = new LoadSceneParameters(LoadSceneMode.Additive);
+            loadedScene = SceneManager.LoadScene(additiveSceneToLoad, parameters);
         }
     }
 }

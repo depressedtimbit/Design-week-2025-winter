@@ -4,11 +4,11 @@ public class PlayerData : MonoBehaviour
 {
     public static PlayerData Instance { get; private set;}
 
-    //always True, Saw, Welder, Probe
+    //always True, Saw, Welder, Probe, Game Won
     public bool[] ToolStates = new bool[4]{true, false, false, false};
 
     public int PlayerView = 0;
-    public bool[] DoorStates = new bool[4]{false, false, false, false};
+    public bool[] DoorStates = new bool[4]{true, false, false, false};
 
     // Awake is called before the first frame update
     void Awake()

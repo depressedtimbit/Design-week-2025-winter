@@ -22,7 +22,7 @@ public class ViewManager : MonoBehaviour
     public void ChangeView(View view)
     {
         // dither between views
-        CurtainManager.instance.DitherIn(currentView, view, 1.5f);
+        CurtainManager.instance.DitherIn(currentView, view, 0.8f);
 
         currentView.deactivateView();
 

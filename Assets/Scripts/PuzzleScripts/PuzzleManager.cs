@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PuzzleManager : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class PuzzleManager : MonoBehaviour
     {
         currentState = dots;
         solution = puzzleData.puzzleSolution;
+        canLose = puzzleData.canLose;
     }
     public static void winCheck()
     {
@@ -41,7 +43,7 @@ public class PuzzleManager : MonoBehaviour
             {
                 if (canLose)
                 {
-                    Debug.Log("YOU LOSE");
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                 } else
                 {
                     currentState[i].number = minNumber;

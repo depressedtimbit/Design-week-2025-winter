@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Container
+  - Wire
+  - Button
+  - NoPress
   layers:
   - Default
   - TransparentFX

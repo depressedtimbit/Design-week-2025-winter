@@ -25,5 +25,10 @@ public class AudioTest : MonoBehaviour
         {
             AudioManager.instance.PlaySound("metal_clang", 1, 0.2f, 0.5f, 1f);
         }   
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            SubtitleManager.instance.DoDialogue("I am a robot... I have robot thoughts...");
+        }
     }
 }

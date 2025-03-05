@@ -10,13 +10,12 @@ public class PuzzleManager : MonoBehaviour
     public static DotLogic[] currentState;
     public static int maxNumber = 5;
     public static int minNumber = 0;
-    public static int loseValue;
+    private static bool canLose;
 
     private void Start()
     {
         currentState = dots;
         solution = puzzleData.puzzleSolution;
-        loseValue = puzzleData.loseValue;
     }
     public static void winCheck()
     {
@@ -37,9 +36,17 @@ public class PuzzleManager : MonoBehaviour
     {
         for (int i = 0; i < solution.Length; i++)
         {
-            if (currentState[i].number == loseValue)
+            
+            if (currentState[i].number >maxNumber)
             {
-                Debug.Log("YOU LOSE");
+                if (canLose)
+                {
+                    Debug.Log("YOU LOSE");
+                } else
+                {
+                    currentState[i].number = minNumber;
+                }
+                
             }
         }
     }

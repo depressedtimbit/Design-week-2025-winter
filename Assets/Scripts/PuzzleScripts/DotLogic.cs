@@ -19,20 +19,14 @@ public class DotLogic : MonoBehaviour
     private void OnMouseDown()
     {
         incrementNumber();
-        updateDisplay();
         PuzzleManager.winCheck();
         PuzzleManager.loseCheck();
+        updateDisplay();
     }
 
     private void incrementNumber()
     {
-        if (number >= PuzzleManager.maxNumber)
-        {
-            number = PuzzleManager.minNumber;
-        } else
-        {
-            number++;
-        }
+        number++;
     }
     private void updateDisplay()
     {

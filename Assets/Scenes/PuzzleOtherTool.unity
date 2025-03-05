@@ -337,7 +337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e7a55d9228c2c04fbda01c7c7165710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  correctPassword: tcaolb
+  correctPassword: mciaumd
   passwordInput: {fileID: 149712046}
   passwordUI: {fileID: 146572905}
   leftChest: {fileID: 1167409210}
@@ -2682,7 +2682,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Request: Cobalt
+  m_text: 'Request: Cadmium
 
     Awaiting Security Response:'
   m_isRightToLeft: 0

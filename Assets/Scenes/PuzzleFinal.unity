@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e7a55d9228c2c04fbda01c7c7165710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  correctPassword: ztmbhhgv
+  correctPassword: vghuh
   passwordInput: {fileID: 644321531}
   passwordUI: {fileID: 156808563}
   leftChest: {fileID: 1423938279}
@@ -716,7 +716,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Request: VGhhbmtz
+  m_text: 'Request: VGhlc2UK
 
     Awaiting Security Response:'
   m_isRightToLeft: 0

@@ -10,27 +10,32 @@ public class DotLogic : MonoBehaviour
     public TextMeshPro numberDisplay;
     public int number;
     public List<DotLogic> connectedDots = new List<DotLogic>();
+    public bool clickToIncrement = true;
     private bool positiveButton = false;
     private bool negativeButton = false;
 
     private void OnMouseDown()
     {
-        if (positiveButton)
+        if (clickToIncrement)
         {
-            number += 1;
-        }
+            if (positiveButton)
+            {
+                number += 1;
+            }
 
-        if (negativeButton)
-        {
-            if(number > 0)
-            number -= 2;
-        }
+            if (negativeButton)
+            {
+                if (number > 0)
+                    number -= 2;
+            }
 
-        incrementNumber();
+            incrementNumber();
+
+            PuzzleManager.winCheck();
+            PuzzleManager.loseCheck();
+            updateDisplay();
+        }
         
-        PuzzleManager.winCheck();
-        PuzzleManager.loseCheck();
-        updateDisplay();
     }
 
     private void incrementNumber()

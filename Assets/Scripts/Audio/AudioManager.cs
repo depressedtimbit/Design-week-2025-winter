@@ -236,9 +236,22 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySound(string sound, float volume = 1f, float volumeVariation = 0f, float pitchVariation = 0, float basePitch = 1f)
     {
+        if (!soundDict.ContainsKey(sound))
+        {
+            Debug.LogError($"AudioManager: Sound '{sound}' not found.");
+            return;
+        }
+
+        Sound soundToPlay = soundDict[sound];
+
         soundPlayer.volume = volume + Random.Range(-volumeVariation, volumeVariation);
         soundPlayer.pitch = basePitch +  Random.Range(-pitchVariation, pitchVariation);
-        soundPlayer.PlayOneShot(soundDict[sound].clip);
+        soundPlayer.PlayOneShot(soundToPlay.clip);
+
+        if (SubtitleManager.instance != null)
+        {
+            SubtitleManager.instance.DoSubtitle(soundToPlay.subtitleDescription);
+        }
 
     }
 

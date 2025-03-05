@@ -4,15 +4,27 @@ using UnityEngine;
 
 public class SubtitleManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static SubtitleManager instance;
+
+    private void Awake()
     {
-        
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public GameObject subtitlePrefab;
+
+    public void DoSubtitle(string subText)
     {
+        GameObject newSub = Instantiate(subtitlePrefab);
+
+        // set the instance's parent to our transform and set it as the first (top) sibling
+        newSub.transform.parent = transform;
+        newSub.transform.SetAsFirstSibling();
+
+        newSub.GetComponent<SubtitleObject>().InitSubtitle(subText);
         
     }
 }

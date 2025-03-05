@@ -8,6 +8,7 @@ public class PuzzleManager : MonoBehaviour
     public DotLogic[] dots;
     public PuzzleData puzzleData;
     public static int[] solution;
+    public static int unlockedToolID; 
     public static DotLogic[] currentState;
     public static int maxNumber = 5;
     public static int minNumber = 0;
@@ -18,6 +19,7 @@ public class PuzzleManager : MonoBehaviour
         currentState = dots;
         solution = puzzleData.puzzleSolution;
         canLose = puzzleData.canLose;
+        unlockedToolID = puzzleData.unlockedToolID;
     }
     public static void winCheck()
     {
@@ -31,7 +33,9 @@ public class PuzzleManager : MonoBehaviour
         }
         if (correct == solution.Length)
         {
-            Debug.Log("YOU WIN");
+            //set player as having won the puzzle
+            PlayerData.Instance.ToolStates[unlockedToolID] = true;
+            AdditiveSceneManager.Instance.unloadScene();
         }
     }
     public static void loseCheck()

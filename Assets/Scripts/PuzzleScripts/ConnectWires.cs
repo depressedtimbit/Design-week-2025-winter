@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
+using System.Linq;
 
 public class ConnectWires : MonoBehaviour
 {
@@ -16,10 +18,13 @@ public class ConnectWires : MonoBehaviour
     private int maxNeg = 1;
     private int positiveButtons = 0;
     private int negativeButtons = 0;
+    public static bool probingActive = false;
+    public TextMeshProUGUI currentTool;
     // Start is called before the first frame update
 
     private void Start()
     {
+        currentTool.text = ("Currently Using: " + "None");
         WireConnections[] startingWires = FindObjectsOfType<WireConnections>();
 
         foreach (WireConnections wire in startingWires)
@@ -125,6 +130,11 @@ public class ConnectWires : MonoBehaviour
             {
                 dot.SetPositive();
                 positiveButtons++;
+                if (canProbe)
+                {
+                   
+                }
+
             }else if(!positive && negativeButtons < maxNeg)
             {
                 dot.SetNegative();
@@ -135,12 +145,21 @@ public class ConnectWires : MonoBehaviour
     void CutLine(GameObject wire)
     {
         WireConnections wireConnection = wire.GetComponent<WireConnections>();
-        if(wireConnection != null)
+        if (wireConnection != null)
         {
+            foreach (DotLogic dots in wireConnection.dot2.connectedDots)
+            {
+                if (dots != wireConnection.dot1 && dots.connectedDots.Contains(wireConnection.dot1))
+                {
+                    Debug.Log("connected");
+                    wireConnection.dot1.connectedDots.Remove(dots);
+                    dots.connectedDots.Remove(wireConnection.dot1);
+                }
+            }
+        }
             wireConnection.dot1.DisconnectDots(wireConnection.dot2);
             wireConnection.dot2.DisconnectDots(wireConnection.dot1);
-        }
-        wires.Remove(wire);
+            wires.Remove(wire);
         Destroy(wire);
     }
 
@@ -149,6 +168,8 @@ public class ConnectWires : MonoBehaviour
         canWeld = true;
         canCut = false;
         canProbe = false;
+        probingActive = false;
+        currentTool.text = ("Currently Using: " + "Weld");
     }
 
     public void EnableCutting()
@@ -156,6 +177,8 @@ public class ConnectWires : MonoBehaviour
         canCut = true;
         canWeld = false;
         canProbe = false;
+        probingActive = false;
+        currentTool.text = ("Currently Using: " + "Saw");
     }
 
     public void EnableProbe()
@@ -163,6 +186,8 @@ public class ConnectWires : MonoBehaviour
         canProbe = true;
         canWeld = false;
         canCut = false;
+        probingActive = true;
+        currentTool.text = ("Currently Using: " + "Probe");
     }
 
     public void DisableTools()
@@ -170,6 +195,8 @@ public class ConnectWires : MonoBehaviour
         canCut = false;
         canWeld = false;
         canProbe = false;
+        probingActive = false;
+        currentTool.text = ("Currently Using: " + "None");
     }
 
 }

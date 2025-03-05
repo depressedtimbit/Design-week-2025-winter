@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class PasswordCheck : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class PasswordCheck : MonoBehaviour
     {
         passwordInput.interactable = true;
         dotPuzzle.SetActive(false);
+        EventSystem.current.SetSelectedGameObject(gameObject);
     }
 
     public void OnEndedInputField(string password)

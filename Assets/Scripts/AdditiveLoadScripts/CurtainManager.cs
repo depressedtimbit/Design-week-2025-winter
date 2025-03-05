@@ -18,13 +18,23 @@ public class CurtainManager : MonoBehaviour
     private void Awake()
     {
         // set instance in Awake() so other classes can reference it in Start()
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        } else
+        {
+            Destroy(gameObject);
+        }
+
+        ditherMaterial = ditherImage.material;
     }
     #endregion
 
     // reference to the curtain image
     public Image curtain;
 
+    private Material ditherMaterial;
+    public Image ditherImage;
 
     public LTDescr FadeIn(float time)
     {
@@ -51,6 +61,75 @@ public class CurtainManager : MonoBehaviour
             Color c = curtain.color;
             c.a = val;
             curtain.color = c;
+        });
+    }
+
+    /// <summary>
+    /// Referenced https://discussions.unity.com/t/create-texture-from-current-camera-view/86847/2
+    /// </summary>
+    /// <param name="oldCam"></param>
+    /// <param name="newCam"></param>
+    /// <returns></returns>
+    public LTDescr DitherIn(View oldView, View newView, float time)
+    {
+        Camera oldCam = oldView.cam, newCam = newView.cam;
+
+        Rect rect = new Rect(0, 0, Screen.width, Screen.height);
+
+        Texture2D oldTex = new Texture2D(Screen.width, Screen.height, TextureFormat.RGBA32, false);
+        Texture2D newTex = new Texture2D(Screen.width, Screen.height, TextureFormat.RGBA32, false);
+
+        RenderTexture renderTexture = new RenderTexture(Screen.width, Screen.height, 24);
+
+        oldCam.targetTexture = renderTexture;
+        oldCam.Render();
+
+        RenderTexture.active = renderTexture;
+        oldTex.ReadPixels(rect, 0, 0);
+        oldTex.Apply();
+
+        oldCam.targetTexture = null;
+        RenderTexture.active = null;
+
+        // repeat for new camera
+
+        newView.gameObject.SetActive(true);
+
+        newCam.targetTexture = renderTexture;
+        newCam.Render();
+
+        RenderTexture.active = renderTexture;
+        newTex.ReadPixels(rect, 0, 0);
+        newTex.Apply();
+
+        newCam.targetTexture = null;
+        RenderTexture.active = null;
+
+        // set textures on material
+        ditherMaterial.SetTexture("_FromTexture", oldTex);
+        ditherMaterial.SetTexture("_ToTexture", newTex);
+
+        newView.gameObject.SetActive(false);
+
+        LeanTween.cancel(ditherImage.gameObject);
+
+        Color c = ditherImage.color;
+        c.a = 1;
+        ditherImage.color = c;
+
+        LeanTween.value(0, 1, time).setOnComplete(() =>
+        {
+            Color c2 = ditherImage.color;
+            c2.a = 0;
+            ditherImage.color = c2;
+
+            Destroy(oldTex);
+            Destroy(newTex);
+        });
+
+        return LeanTween.value(ditherImage.gameObject, 0, 1, time).setOnUpdate((float val) =>
+        {
+            ditherMaterial.SetFloat("_Dither", val);
         });
     }
 

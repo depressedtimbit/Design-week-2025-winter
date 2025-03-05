@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class View : MonoBehaviour
 {
-<<<<<<< Updated upstream
-=======
+
     public Camera cam;
 
     private void Awake()
@@ -16,7 +15,6 @@ public class View : MonoBehaviour
         cam = GetComponentInChildren<Camera>();
     }
 
->>>>>>> Stashed changes
     public void deactivateView()
     {
         this.gameObject.SetActive(false);

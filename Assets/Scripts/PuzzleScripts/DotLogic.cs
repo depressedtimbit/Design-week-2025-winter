@@ -27,21 +27,16 @@ public class DotLogic : MonoBehaviour
         }
 
         incrementNumber();
-        updateDisplay();
+        
         PuzzleManager.winCheck();
         PuzzleManager.loseCheck();
+        updateDisplay();
     }
 
     private void incrementNumber()
     {
-        if (number >= PuzzleManager.maxNumber)
-        {
-            number = PuzzleManager.minNumber;
-        }
-        else
-        {
-            number++;
-        }
+
+        number++;
 
         foreach (DotLogic dot in connectedDots)
         {
@@ -92,7 +87,6 @@ public class DotLogic : MonoBehaviour
     public void SetPositive()
     {
         positiveButton = true;
-        Debug.Log("hi");
     }
     public void SetNegative()
     {

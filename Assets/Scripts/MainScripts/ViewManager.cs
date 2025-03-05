@@ -15,6 +15,9 @@ public class ViewManager : MonoBehaviour
             Debug.Log("Multiple PlayerData's exist, deleting the latest one");
             Destroy(this);
         }
+
+        //activate our current view, as they turn themselves off in awake
+        currentView.activateView();
     }
     public void ChangeView(View view)
     {

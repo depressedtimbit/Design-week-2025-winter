@@ -7,35 +7,95 @@ using Unity.VisualScripting;
 
 public class DotLogic : MonoBehaviour
 {
-    public bool clickToIncrement = true;
     public TextMeshPro numberDisplay;
     public int number;
     public List<DotLogic> connectedDots = new List<DotLogic>();
-
-
-    void Update()
-    {
-       
-    }
+    private bool positiveButton = false;
+    private bool negativeButton = false;
 
     private void OnMouseDown()
     {
-        if (clickToIncrement)
+        if (positiveButton)
         {
-            incrementNumber();
-            PuzzleManager.winCheck();
-            PuzzleManager.loseCheck();
-            updateDisplay();
+            number += 1;
         }
-        
+
+        if (negativeButton)
+        {
+            if(number > 0)
+            number -= 2;
+        }
+
+        incrementNumber();
+        updateDisplay();
+        PuzzleManager.winCheck();
+        PuzzleManager.loseCheck();
     }
 
     private void incrementNumber()
     {
-        number++;
+        if (number >= PuzzleManager.maxNumber)
+        {
+            number = PuzzleManager.minNumber;
+        }
+        else
+        {
+            number++;
+        }
+
+        foreach (DotLogic dot in connectedDots)
+        {
+            if (dot != this)
+            {
+                if (dot.positiveButton)
+                {
+                    dot.number += 2;
+                    dot.updateDisplay();
+                }
+                else if (dot.negativeButton)
+                {
+                    dot.number -= 1;
+                    dot.updateDisplay();
+                }
+                else
+                {
+                    dot.number++;
+                    dot.updateDisplay();
+                }
+                
+            }
+        }
     }
     private void updateDisplay()
     {
         numberDisplay.text = number.ToString();
+    }
+
+    public void ConnectDots(DotLogic otherDot)
+    {
+        if (!connectedDots.Contains(otherDot))
+        {
+            connectedDots.Add(otherDot);
+        }
+        if (!otherDot.connectedDots.Contains(this))
+        {
+            otherDot.connectedDots.Contains(this);
+        }
+    }
+
+    public void DisconnectDots(DotLogic otherDot)
+    {
+        connectedDots.Remove(otherDot);
+        otherDot.connectedDots.Remove(this);
+    }
+
+    public void SetPositive()
+    {
+        positiveButton = true;
+        Debug.Log("hi");
+    }
+    public void SetNegative()
+    {
+        negativeButton = true;
     }
 }

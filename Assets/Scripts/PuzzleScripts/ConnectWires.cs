@@ -17,9 +17,24 @@ public class ConnectWires : MonoBehaviour
     private int positiveButtons = 0;
     private int negativeButtons = 0;
     // Start is called before the first frame update
-    void Start()
-    {
 
+    private void Start()
+    {
+        WireConnections[] startingWires = FindObjectsOfType<WireConnections>();
+
+        foreach (WireConnections wire in startingWires)
+        {
+            if (wire.dot1 != null && wire.dot2 != null)
+            {
+                LineRenderer lr = wire.GetComponent<LineRenderer>();
+                EdgeCollider2D ec = wire.GetComponent<EdgeCollider2D>();
+                lr.SetPosition(0, wire.dot1.transform.position);
+                lr.SetPosition(1, wire.dot2.transform.position);
+                Vector2[] startPoints = { wire.dot1.transform.position, wire.dot2.transform.position };
+                ec.points = startPoints;
+                wires.Add(wire.gameObject);
+            }
+        }
     }
 
     // Update is called once per frame
@@ -61,7 +76,7 @@ public class ConnectWires : MonoBehaviour
                     RaycastHit2D lineHit = Physics2D.Raycast(clickPoint, Vector2.zero);
                     if (lineHit.collider != null && lineHit.collider.CompareTag("Wire"))
                     {
-                        if (canCut)
+                            Debug.Log("hi");
                             CutLine(lineHit.collider.gameObject);
                     }
                 }

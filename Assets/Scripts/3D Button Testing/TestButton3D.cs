@@ -29,8 +29,18 @@ public class TestButton3D : MonoBehaviour
 
     public bool isSquare = false;
 
+    // stores the number to switch to after the press graphic is complete
+    // this is set in DotLogic
+    public int nextNumber;
+
     // Start is called before the first frame update
     void Start()
+    {
+        InitMaterials();
+       
+    }
+    
+    public void InitMaterials()
     {
         if (!isSquare)
         {
@@ -71,7 +81,22 @@ public class TestButton3D : MonoBehaviour
 
     private void OnMouseDown()
     {
+        nextNumber = currentNumber + 1;
+        nextNumber %= 6;
+
+        MouseDown();
+    }
+
+    private void OnMouseUp()
+    {
+        MouseUp();
+    }
+
+    public void MouseDown()
+    {
         if (mousePressed) return;
+
+        print("mouse down");
 
         if (isSquare)
         {
@@ -104,7 +129,7 @@ public class TestButton3D : MonoBehaviour
         });
     }
 
-    private void OnMouseUp()
+    public void MouseUp()
     {
         if (!mousePressed) return;
 
@@ -122,10 +147,9 @@ public class TestButton3D : MonoBehaviour
         
     }
 
-    private void OnPressComplete()
+    public void SetNumber(int n)
     {
-        currentNumber++;
-        currentNumber %= 6;
+        currentNumber = n;
 
         numberText.text = currentNumber.ToString();
 
@@ -134,5 +158,15 @@ public class TestButton3D : MonoBehaviour
             m.SetColor("_EmissionColor", Color.HSVToRGB(0, 1, (currentNumber / 5f) * maxEmissionSaturation));
             buttonRenderer.SetPropertyBlock(m);
         }
+    }
+
+    private void OnPressComplete()
+    {
+        //currentNumber++;
+        //currentNumber %= 6;
+
+        SetNumber(nextNumber);
+
+       
     }
 }

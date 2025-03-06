@@ -14,6 +14,35 @@ public class DotLogic : MonoBehaviour
     private bool positiveButton = false;
     private bool negativeButton = false;
 
+    public GameObject button3DGraphic, square3DGraphic;
+    public GameObject sceneNumberText;
+
+    // reference to this button's 3D graphic's script, so we can set the number
+    private TestButton3D graphicScript3D;
+
+    private void Start()
+    {
+        // disable spritrenderer and text, enable 3d graphic
+        GetComponent<SpriteRenderer>().enabled = false;
+
+        sceneNumberText.SetActive(false);
+
+        if (clickToIncrement)
+        {
+            button3DGraphic.SetActive(true);
+            graphicScript3D = button3DGraphic.GetComponent<TestButton3D>();
+        }
+        else
+        {
+            square3DGraphic.SetActive(true);
+            graphicScript3D = square3DGraphic.GetComponent<TestButton3D>();
+        }
+
+        graphicScript3D.InitMaterials();
+        graphicScript3D.SetNumber(number);
+
+    }
+
     private void OnMouseDown()
     {
         if (clickToIncrement)
@@ -35,7 +64,14 @@ public class DotLogic : MonoBehaviour
             PuzzleManager.loseCheck();
             updateDisplay();
         }
-        
+
+        graphicScript3D.nextNumber = number;
+        graphicScript3D.MouseDown();
+    }
+
+    private void OnMouseUp()
+    {
+        graphicScript3D.MouseUp();
     }
 
     private void incrementNumber()
@@ -65,6 +101,7 @@ public class DotLogic : MonoBehaviour
                 
             }
         }
+
     }
     private void updateDisplay()
     {

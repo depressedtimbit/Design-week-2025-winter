@@ -67,7 +67,7 @@ public class AdditiveSceneManager : MonoBehaviour
         else Debug.LogError("Tried to Load a puzzle whilst loaded in a puzzle, this is bad!");
     }
 
-    public void unloadScene()
+    public void unloadScene(int unlockedToolID)
     {
         if (!inMainScreen)
         {
@@ -79,7 +79,31 @@ public class AdditiveSceneManager : MonoBehaviour
 
                 deactivateOnSceneLoad.SetActive(inMainScreen);
 
-                CurtainManager.instance.FadeOut(1);
+                //set player as having won the puzzle
+                PlayerData.Instance.ToolStates[unlockedToolID] = true;
+
+                CurtainManager.instance.FadeOut(1).setOnComplete(() => 
+                {
+                    switch (unlockedToolID)
+                    {
+                        case 1:
+                            SubtitleManager.instance.DoDialogue("I got the saw tool!");
+                            break;
+                        case 2:
+                            SubtitleManager.instance.DoDialogue("I got the welding torch!");
+                            break;
+                        case 3:
+                            SubtitleManager.instance.DoDialogue("I got the electrical probe!");
+                        break;
+
+
+                        default: Debug.Log("invalid Tool ID"); 
+                        break;
+                    }
+                });
+                
+
+                
             });
         }
         else Debug.LogError("Tried to unload a puzzle without one being loaded, this is bad!");

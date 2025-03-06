@@ -31,11 +31,17 @@ public class PuzzleManager : MonoBehaviour
                 correct++;
             }
         }
-        if (correct == solution.Length)
+        // THE INPUT GETKEY IS A DEV SHORTCUT TO INSTANTLY COMPLETE A PUZZLE GET RID OF IT LATER
+        if (correct == solution.Length || Input.GetKey(KeyCode.F7))
         {
             if(AdditiveSceneManager.Instance != null)
             {
                 AdditiveSceneManager.Instance.unloadScene(true, unlockedToolID);
+            }
+
+            if (PlayerData.Instance != null)
+            {
+                PlayerData.Instance.OnPuzzleSuccess(unlockedToolID - 1);
             }
             else Debug.Log("PuzzleWon");
         }

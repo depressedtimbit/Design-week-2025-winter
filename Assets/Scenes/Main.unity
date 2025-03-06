@@ -816,6 +816,10 @@ MonoBehaviour:
   ToolStates: 01000000
   PlayerView: 0
   DoorStates: 01000000
+  robotSprites:
+  - {fileID: 1832941692}
+  - {fileID: 1868729916}
+  - {fileID: 462473162}
 --- !u!4 &185916290
 Transform:
   m_ObjectHideFlags: 0
@@ -1594,6 +1598,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneToLoad: PuzzleOtherTool
   view: {fileID: 1078608717}
+  completeSprite: {fileID: 0}
 --- !u!212 &462473163
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4449,6 +4454,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneToLoad: PuzzleNoBonus
   view: {fileID: 732642821}
+  completeSprite: {fileID: 21300000, guid: 37b5a2411b33e1b4fabb1bb2941e56bd, type: 3}
 --- !u!61 &1832941693
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4594,6 +4600,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneToLoad: PuzzleSaw
   view: {fileID: 1001516445}
+  completeSprite: {fileID: 21300000, guid: f6364b0208b5f8842abec0606d7c931a, type: 3}
 --- !u!61 &1868729917
 BoxCollider2D:
   m_ObjectHideFlags: 0

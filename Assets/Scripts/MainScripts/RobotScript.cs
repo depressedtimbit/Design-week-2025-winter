@@ -11,6 +11,8 @@ public class RobotScript : MonoBehaviour
 
     private bool IsComplete;
 
+    public Sprite completeSprite;
+
     void Start()
     {    
         if (view == null){
@@ -25,6 +27,12 @@ public class RobotScript : MonoBehaviour
             AdditiveSceneManager.Instance.LoadScene(sceneToLoad, view.gameObject);
             //IsComplete = true;
         }
+    }
+
+    public void OnPuzzleComplete()
+    {
+        if (completeSprite != null) GetComponent<SpriteRenderer>().sprite = completeSprite;
+        IsComplete = true;
     }
 }
 

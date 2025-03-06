@@ -99,7 +99,7 @@ public class ConnectWires : MonoBehaviour
 
     void CreateWire(GameObject start, GameObject end)
     {
-        GameObject newWire = Instantiate(wirePrefab);
+        GameObject newWire = Instantiate(wirePrefab, this.gameObject.transform);
         LineRenderer lr = newWire.GetComponent<LineRenderer>();
         EdgeCollider2D ec = newWire.GetComponent<EdgeCollider2D>();
         Vector2[] linePoints = { start.transform.position, end.transform.position };

@@ -783,6 +783,7 @@ MonoBehaviour:
   lockedSprite: {fileID: 21300000, guid: b02903dbfefa57946878608e4861451f, type: 3}
   UnlockedSprite: {fileID: 21300000, guid: 4d825657464d7e1479621665bf7b1c82, type: 3}
   view: {fileID: 86802887}
+  PView: {fileID: 139591603}
 --- !u!1 &185916288
 GameObject:
   m_ObjectHideFlags: 0

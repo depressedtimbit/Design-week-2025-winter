@@ -41,7 +41,8 @@ public class DoorScript : MonoBehaviour
             }
             else
             {
-                Debug.Log("I can't Seem to open it yet...");
+                //Debug.Log("I can't Seem to open it yet...");
+                SubtitleManager.instance.DoDialogue("I can't seem to open it yet...");
             }
         }
     }

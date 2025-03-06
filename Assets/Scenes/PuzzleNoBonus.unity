@@ -1163,7 +1163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e7a55d9228c2c04fbda01c7c7165710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  correctPassword: '"password"'
+  correctPassword: password
   passwordInput: {fileID: 995024746}
   passwordUI: {fileID: 772667352}
   leftChest: {fileID: 1850157231}

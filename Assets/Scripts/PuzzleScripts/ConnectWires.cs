@@ -151,7 +151,7 @@ public class ConnectWires : MonoBehaviour
     void CutLine(GameObject wire)
     {
         WireConnections wireConnection = wire.GetComponent<WireConnections>();
-        if (wireConnection != null)
+        /*if (wireConnection != null)
         {
             foreach (DotLogic dots in wireConnection.dot2.connectedDots)
             {
@@ -162,7 +162,7 @@ public class ConnectWires : MonoBehaviour
                     dots.connectedDots.Remove(wireConnection.dot1);
                 }
             }
-        }
+        }*/
             wireConnection.dot1.DisconnectDots(wireConnection.dot2);
             wireConnection.dot2.DisconnectDots(wireConnection.dot1);
             wires.Remove(wire);

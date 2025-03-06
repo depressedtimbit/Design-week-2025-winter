@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
+using System.Linq;
 
 
 public class DotLogic : MonoBehaviour
@@ -19,19 +20,27 @@ public class DotLogic : MonoBehaviour
     {
         if (clickToIncrement && !ConnectWires.probingActive)
         {
-            if (positiveButton)
+            
+            List<DotLogic> foundConnected = new List<DotLogic>();
+            foreach(DotLogic dot in connectedDots)
             {
-                number += 1;
+                foundConnected.Add(dot);
             }
-
-            if (negativeButton)
+            for(int i=0; i<foundConnected.Count; i++)
             {
-                if (number > 0)
-                    number -= 2;
+                for (int j = 0; j < foundConnected[i].connectedDots.Count; j++)
+                //foreach(DotLogic otherDot in dot.connectedDots)
+                {
+                    if (!foundConnected.Contains(foundConnected[i].connectedDots[j]) && foundConnected[i].connectedDots[j] != this)
+                    {
+                        foundConnected.Add(foundConnected[i].connectedDots[j]);
+                        Debug.Log(foundConnected[i].connectedDots[j]);
+                    }
+                }
+                foundConnected[i].incrementNumber();
+                foundConnected[i].updateDisplay();
             }
-
             incrementNumber();
-
             PuzzleManager.winCheck();
             PuzzleManager.loseCheck();
             updateDisplay();
@@ -41,31 +50,19 @@ public class DotLogic : MonoBehaviour
 
     private void incrementNumber()
     {
-
-        number++;
-
-        foreach (DotLogic dot in connectedDots)
+        if (positiveButton)
         {
-            if (dot != this)
-            {
-                if (dot.positiveButton)
-                {
-                    dot.number += 2;
-                    dot.updateDisplay();
-                }
-                else if (dot.negativeButton)
-                {
-                    dot.number -= 1;
-                    dot.updateDisplay();
-                }
-                else
-                {
-                    dot.number++;
-                    dot.updateDisplay();
-                }
-                
-            }
+            number += 2;
         }
+        else if (negativeButton)
+        {
+            number -= 1;
+        }
+        else
+        {
+            number++;
+        }
+              
     }
     private void updateDisplay()
     {
@@ -83,7 +80,7 @@ public class DotLogic : MonoBehaviour
             otherDot.connectedDots.Add(this);
         }
 
-        foreach(DotLogic dots in otherDot.connectedDots)
+        /*foreach(DotLogic dots in otherDot.connectedDots)
         {
             if (dots != this && !dots.connectedDots.Contains(this))
             {
@@ -91,13 +88,13 @@ public class DotLogic : MonoBehaviour
                 connectedDots.Add(dots);
                 dots.connectedDots.Add(this);
             }
-        }
+        }*/
     }
 
     public void DisconnectDots(DotLogic otherDot)
     {
+        Debug.Log("cut");
         connectedDots.Remove(otherDot);
-        otherDot.connectedDots.Remove(this);
     }
 
     public void SetPositive()

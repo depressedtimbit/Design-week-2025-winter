@@ -26,7 +26,7 @@ public class PasswordCheck : MonoBehaviour
 
     public void OnEndedInputField(string password)
     {
-        if (password == correctPassword)
+        if (password.ToLower() == correctPassword.ToLower())
         {
             passwordUI.SetActive(false);
             dotPuzzle.SetActive(true);

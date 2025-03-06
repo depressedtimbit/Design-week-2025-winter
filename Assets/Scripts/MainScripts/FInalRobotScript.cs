@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorScript : MonoBehaviour
+public class FInalRobotScript : MonoBehaviour
 {
-    private SpriteRenderer spriteRenderer;
+    public string sceneToLoad;
 
-    private bool IsOpen;
-    public int DoorID;
     public int RequiredTool;
+    private SpriteRenderer spriteRenderer;
     public Sprite lockedSprite;
     public Sprite UnlockedSprite;
     public View view;
-
+    public View PView;
+    private bool IsComplete = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,17 +21,13 @@ public class DoorScript : MonoBehaviour
         }
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = lockedSprite;
-        if (PlayerData.Instance.DoorStates[DoorID] == true)
-        {
-            UnlockDoor();
-        }
     }
 
     void OnMouseDown()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (IsOpen)
+            if (IsComplete)
             {
                 ViewManager.Instance.ChangeView(view); 
             }
@@ -49,7 +45,8 @@ public class DoorScript : MonoBehaviour
 
     void UnlockDoor()
     {
-        IsOpen = true;
+        AdditiveSceneManager.Instance.LoadScene(sceneToLoad, PView.gameObject);
+        IsComplete = true;
         spriteRenderer.sprite = UnlockedSprite;
     }
 }

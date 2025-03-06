@@ -35,6 +35,19 @@ public class PuzzleManager : MonoBehaviour
         {
             //set player as having won the puzzle
             PlayerData.Instance.ToolStates[unlockedToolID] = true;
+
+            if (unlockedToolID == 1)
+            {
+                SubtitleManager.instance.DoDialogue("I got the saw tool!");
+            } else if (unlockedToolID == 2)
+            {
+                SubtitleManager.instance.DoDialogue("I got the welding torch!");
+            }
+            else if (unlockedToolID == 3)
+            {
+                SubtitleManager.instance.DoDialogue("I got the electrical probe!");
+            }
+
             AdditiveSceneManager.Instance.unloadScene();
         }
     }
@@ -47,6 +60,7 @@ public class PuzzleManager : MonoBehaviour
             {
                 if (canLose)
                 {
+                    Debug.Log("game Lost");
                     AdditiveSceneManager.Instance.restartScene();
                 } else
                 {

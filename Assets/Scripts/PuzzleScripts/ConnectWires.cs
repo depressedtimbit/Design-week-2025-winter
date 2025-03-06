@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using TMPro;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class ConnectWires : MonoBehaviour
 {
@@ -105,7 +106,11 @@ public class ConnectWires : MonoBehaviour
 
     void CreateWire(GameObject start, GameObject end)
     {
-        GameObject newWire = Instantiate(wirePrefab, this.gameObject.transform);
+        GameObject newWire = Instantiate(wirePrefab);
+        if (newWire.scene != this.gameObject.scene)
+        {
+            SceneManager.MoveGameObjectToScene(newWire, this.gameObject.scene);
+        }
         LineRenderer lr = newWire.GetComponent<LineRenderer>();
         EdgeCollider2D ec = newWire.GetComponent<EdgeCollider2D>();
         Vector2[] linePoints = { start.transform.position, end.transform.position };

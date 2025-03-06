@@ -33,22 +33,11 @@ public class PuzzleManager : MonoBehaviour
         }
         if (correct == solution.Length)
         {
-            //set player as having won the puzzle
-            PlayerData.Instance.ToolStates[unlockedToolID] = true;
-
-            if (unlockedToolID == 1)
+            if(AdditiveSceneManager.Instance != null)
             {
-                SubtitleManager.instance.DoDialogue("I got the saw tool!");
-            } else if (unlockedToolID == 2)
-            {
-                SubtitleManager.instance.DoDialogue("I got the welding torch!");
+                AdditiveSceneManager.Instance.unloadScene(unlockedToolID);
             }
-            else if (unlockedToolID == 3)
-            {
-                SubtitleManager.instance.DoDialogue("I got the electrical probe!");
-            }
-
-            AdditiveSceneManager.Instance.unloadScene();
+            else Debug.Log("PuzzleWon");
         }
     }
     public static void loseCheck()

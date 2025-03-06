@@ -50,7 +50,6 @@ public class DotLogic : MonoBehaviour
     {
         if (clickToIncrement && !ConnectWires.probingActive)
         {
-            
             List<DotLogic> foundConnected = new List<DotLogic>();
             foreach(DotLogic dot in connectedDots)
             {
@@ -85,6 +84,7 @@ public class DotLogic : MonoBehaviour
 
     private void OnMouseUp()
     {
+        AudioManager.instance.PlaySound("buttonUp", 1, 0.1f, 1f, 0.1f);
         graphicScript3D.MouseUp();
     }
 

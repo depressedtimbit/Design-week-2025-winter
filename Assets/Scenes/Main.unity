@@ -813,7 +813,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b04fb08060477e74ab075a77591f0745, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ToolStates: 01010101
+  ToolStates: 01000000
   PlayerView: 0
   DoorStates: 01000000
   robotSprites:

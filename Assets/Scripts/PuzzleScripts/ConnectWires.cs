@@ -20,6 +20,9 @@ public class ConnectWires : MonoBehaviour
     private int negativeButtons = 0;
     public static bool probingActive = false;
     public TextMeshProUGUI currentTool;
+    public TextMeshProUGUI wiresLeft;
+    private int wireCount;
+    public int wireLimit;
     // Start is called before the first frame update
 
     private void Start()
@@ -45,6 +48,9 @@ public class ConnectWires : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        wireCount = wires.Count;
+        int useablewire = wireLimit - wireCount;
+        wiresLeft.text = ("Wires Remaining: " + useablewire);
         Vector2 clickPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Collider2D hit = Physics2D.OverlapPoint(clickPoint);
         if (Input.GetMouseButtonDown(0))
@@ -59,7 +65,7 @@ public class ConnectWires : MonoBehaviour
         }
         else if (Input.GetMouseButtonDown(1))
         {
-            if (canWeld)
+            if (canWeld && wireCount < wireLimit)
                 {
                     if (hit )
                     {

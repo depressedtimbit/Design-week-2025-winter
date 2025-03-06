@@ -35,10 +35,12 @@ public class PasswordCheck : MonoBehaviour
     {
         if (password.ToLower() == correctPassword.ToLower())
         {
+            Debug.Log("no");
             OnPasswordSolved();
 
         } else
         {
+
             passwordInput.text = "";
         }
     }

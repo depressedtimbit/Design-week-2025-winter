@@ -4,7 +4,7 @@ public class PlayerData : MonoBehaviour
 {
     public static PlayerData Instance { get; private set;}
 
-    //always True, Saw, Welder, Probe, Game Won
+    //always True, Saw, Welder, Probe
     public bool[] ToolStates = new bool[4]{true, false, false, false};
 
     public int PlayerView = 0;

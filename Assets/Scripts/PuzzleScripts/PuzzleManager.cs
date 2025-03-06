@@ -50,7 +50,7 @@ public class PuzzleManager : MonoBehaviour
                 if (canLose)
                 {
                     Debug.Log("game Lost");
-                    AdditiveSceneManager.Instance.restartScene();
+                    if (AdditiveSceneManager.Instance != null ) AdditiveSceneManager.Instance.restartScene();
                 } else
                 {
                     currentState[i].number = minNumber;

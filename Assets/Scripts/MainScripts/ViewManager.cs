@@ -1,10 +1,13 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ViewManager : MonoBehaviour
 {
     public static ViewManager Instance;
     public View currentView;
-    void Start()
+    public UnityEvent<Camera> OnCameraChanged;
+    void Awake()
     {
         if (Instance == null)
         {
@@ -16,8 +19,13 @@ public class ViewManager : MonoBehaviour
             Destroy(this);
         }
 
+        if (OnCameraChanged == null) OnCameraChanged = new UnityEvent<Camera>();
+
+    }
+    void Start()
+    {
         //activate our current view, as they turn themselves off in awake
-        currentView.activateView();
+        ChangeView(currentView);
     }
     public void ChangeView(View view)
     {
@@ -29,6 +37,7 @@ public class ViewManager : MonoBehaviour
         currentView = view;
         
         currentView.activateView();
+        OnCameraChanged.Invoke(currentView.cam);
     }
 
 }

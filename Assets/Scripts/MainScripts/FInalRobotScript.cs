@@ -11,6 +11,7 @@ public class FInalRobotScript : MonoBehaviour
     public Sprite lockedSprite;
     public Sprite UnlockedSprite;
     public View view;
+    public View PView;
     private bool IsComplete = false;
     // Start is called before the first frame update
     void Start()
@@ -44,7 +45,7 @@ public class FInalRobotScript : MonoBehaviour
 
     void UnlockDoor()
     {
-        AdditiveSceneManager.Instance.LoadScene(sceneToLoad, view.gameObject);
+        AdditiveSceneManager.Instance.LoadScene(sceneToLoad, PView.gameObject);
         IsComplete = true;
         spriteRenderer.sprite = UnlockedSprite;
     }

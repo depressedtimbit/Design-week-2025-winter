@@ -23,7 +23,7 @@ public class RobotScript : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && !IsComplete)
         {
             AdditiveSceneManager.Instance.LoadScene(sceneToLoad, view.gameObject);
-            IsComplete = true;
+            //IsComplete = true;
         }
     }
 }

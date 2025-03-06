@@ -49,7 +49,6 @@ public class PuzzleManager : MonoBehaviour
             {
                 if (canLose)
                 {
-                    Debug.Log("game Lost");
                     //AdditiveSceneManager.Instance.restartScene();
                     // turn screen white
                     AudioManager.instance.PlaySound("explosion", 1, 0.1f, 1f, 0.1f);

@@ -56,7 +56,7 @@ public class TestButton3D : MonoBehaviour
      if (!mousePressed && buttonPressed && pressFinished)
         {
             pressFinished = false;
-            LeanTween.value(0, 1, pressUpTime).setOnUpdate((float val) =>
+            LeanTween.value(gameObject, 0, 1, pressUpTime).setOnUpdate((float val) =>
             {
                 Vector3 pos = button.localPosition;
                 pos.y = Mathf.Lerp(buttonPressY.y, buttonPressY.x, val);
@@ -108,7 +108,7 @@ public class TestButton3D : MonoBehaviour
         mousePressed = true;
         pressFinished = false;
 
-        LeanTween.value(0, 1, pressDownTime).setOnUpdate((float val) =>
+        LeanTween.value(gameObject, 0, 1, pressDownTime).setOnUpdate((float val) =>
         {
             Vector3 pos = button.localPosition;
             pos.y = Mathf.Lerp(buttonPressY.x, buttonPressY.y, val);

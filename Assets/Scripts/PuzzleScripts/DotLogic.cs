@@ -39,6 +39,7 @@ public class DotLogic : MonoBehaviour
         }
 
         graphicScript3D.InitMaterials();
+        graphicScript3D.nextNumber = number;
         graphicScript3D.SetNumber(number);
 
     }
@@ -66,8 +67,11 @@ public class DotLogic : MonoBehaviour
             updateDisplay();
         }
 
-        graphicScript3D.nextNumber = number;
-        graphicScript3D.MouseDown();
+        if (clickToIncrement)
+        {
+            graphicScript3D.nextNumber = number;
+            graphicScript3D.MouseDown();
+        }
     }
 
     private void OnMouseUp()
@@ -77,7 +81,6 @@ public class DotLogic : MonoBehaviour
 
     private void incrementNumber()
     {
-
         number++;
 
         foreach (DotLogic dot in connectedDots)
@@ -99,7 +102,7 @@ public class DotLogic : MonoBehaviour
                     dot.number++;
                     dot.updateDisplay();
                 }
-                
+
             }
         }
 
@@ -107,6 +110,11 @@ public class DotLogic : MonoBehaviour
     private void updateDisplay()
     {
         numberDisplay.text = number.ToString();
+
+
+        graphicScript3D.nextNumber = number;
+        graphicScript3D.SetNumber(number);
+
     }
 
     public void ConnectDots(DotLogic otherDot)
@@ -120,7 +128,7 @@ public class DotLogic : MonoBehaviour
             otherDot.connectedDots.Add(this);
         }
 
-        foreach(DotLogic dots in otherDot.connectedDots)
+        foreach (DotLogic dots in otherDot.connectedDots)
         {
             if (dots != this && !dots.connectedDots.Contains(this))
             {

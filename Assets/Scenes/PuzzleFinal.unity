@@ -442,7 +442,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224664112}
   - component: {fileID: 224664111}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: image (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

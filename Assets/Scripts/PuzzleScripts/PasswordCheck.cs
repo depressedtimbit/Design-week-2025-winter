@@ -22,20 +22,32 @@ public class PasswordCheck : MonoBehaviour
         passwordInput.interactable = true;
         dotPuzzle.SetActive(false);
         EventSystem.current.SetSelectedGameObject(gameObject);
+
+        // if the player has already solved this robot's password, instantly bypass the password field
+        PuzzleManager p = FindObjectOfType<PuzzleManager>();
+        if (PlayerData.Instance != null && PlayerData.Instance.puzzlePasswordCracked[p.puzzleData.puzzleIndex])
+        {
+            OnPasswordSolved();
+        }
     }
 
     public void OnEndedInputField(string password)
     {
         if (password.ToLower() == correctPassword.ToLower())
         {
-            passwordUI.SetActive(false);
-            dotPuzzle.SetActive(true);
-            ChestMove();
+            OnPasswordSolved();
 
         } else
         {
             passwordInput.text = "";
         }
+    }
+
+    private void OnPasswordSolved()
+    {
+        passwordUI.SetActive(false);
+        dotPuzzle.SetActive(true);
+        ChestMove();
     }
 
     private void ChestMove()

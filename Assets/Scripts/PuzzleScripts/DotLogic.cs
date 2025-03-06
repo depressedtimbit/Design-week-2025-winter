@@ -43,9 +43,10 @@ public class DotLogic : MonoBehaviour
 
     }
 
+
     private void OnMouseDown()
     {
-        if (clickToIncrement)
+        if (clickToIncrement && !ConnectWires.probingActive)
         {
             if (positiveButton)
             {
@@ -116,7 +117,17 @@ public class DotLogic : MonoBehaviour
         }
         if (!otherDot.connectedDots.Contains(this))
         {
-            otherDot.connectedDots.Contains(this);
+            otherDot.connectedDots.Add(this);
+        }
+
+        foreach(DotLogic dots in otherDot.connectedDots)
+        {
+            if (dots != this && !dots.connectedDots.Contains(this))
+            {
+                Debug.Log("connected");
+                connectedDots.Add(dots);
+                dots.connectedDots.Add(this);
+            }
         }
     }
 
@@ -129,9 +140,14 @@ public class DotLogic : MonoBehaviour
     public void SetPositive()
     {
         positiveButton = true;
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        sr.color = Color.red;
     }
+
     public void SetNegative()
     {
         negativeButton = true;
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        sr.color = Color.blue;
     }
 }

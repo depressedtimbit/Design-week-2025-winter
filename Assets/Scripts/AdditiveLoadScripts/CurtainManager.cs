@@ -32,22 +32,24 @@ public class CurtainManager : MonoBehaviour
 
     // reference to the curtain image
     public Image curtain;
+    public Image explosionCurtain;
 
     private Material ditherMaterial;
     public Image ditherImage;
 
-    public LTDescr FadeIn(float time)
+    public LTDescr FadeIn(float time, bool regularCurtain = true)
     {
-        return Fade(true, time);
+        return Fade(true, time, regularCurtain);
     }
 
-    public LTDescr FadeOut(float time)
+    public LTDescr FadeOut(float time, bool regularCurtain = true)
     {
-        return Fade(false, time);
+        return Fade(false, time, regularCurtain);
 
     }
 
-    public LTDescr Fade(bool on, float time)
+    // if regularCurtain is set to false, the white explosion curtain will fade in instead
+    public LTDescr Fade(bool on, float time, bool regularCurtain = true)
     {
         // set from and to values for the curtain alpha
         float from = on ? 0 : 1;
@@ -56,11 +58,13 @@ public class CurtainManager : MonoBehaviour
         // cancel ongoing tweens on the curtain
         LeanTween.cancel(gameObject);
 
+        Image curtainImage = regularCurtain ? curtain : explosionCurtain;
+
         return LeanTween.value(gameObject, from, to, time).setOnUpdate((float val) =>
         {
-            Color c = curtain.color;
+            Color c = curtainImage.color;
             c.a = val;
-            curtain.color = c;
+            curtainImage.color = c;
         });
     }
 

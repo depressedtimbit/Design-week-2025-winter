@@ -69,7 +69,6 @@ public class SubtitleManager : MonoBehaviour
             if (val > benchmark)
             {
                 displayingLetters++;
-                print("displaying letter: " + displayingLetters);
                 benchmark += dialogueDisplayTimePerLetter;
 
                 dialogueText.text = dialogue.Substring(0, displayingLetters) + (loadInFromCenter ? "" : new string(Enumerable.Repeat(' ', dialogue.Length - displayingLetters).ToArray()));

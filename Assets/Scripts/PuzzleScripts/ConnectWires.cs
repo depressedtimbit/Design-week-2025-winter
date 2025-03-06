@@ -169,7 +169,8 @@ public class ConnectWires : MonoBehaviour
         canCut = false;
         canProbe = false;
         probingActive = false;
-        currentTool.text = ("Currently Using: " + "Weld");
+        currentTool.text = ("Currently Using: " + "Weld" +
+            "\nRight-click a circle button and a square button to create a wire connecting them.");
     }
 
     public void EnableCutting()
@@ -178,7 +179,8 @@ public class ConnectWires : MonoBehaviour
         canWeld = false;
         canProbe = false;
         probingActive = false;
-        currentTool.text = ("Currently Using: " + "Saw");
+        currentTool.text = ("Currently Using: " + "Saw" +
+            "\nRight-click wires to cut them.");
     }
 
     public void EnableProbe()
@@ -187,7 +189,9 @@ public class ConnectWires : MonoBehaviour
         canWeld = false;
         canCut = false;
         probingActive = true;
-        currentTool.text = ("Currently Using: " + "Probe");
+        currentTool.text = ("Currently Using: " + "Probe" +
+            "\nLeft-click a button to POSITIVELY charge it (+2 on click instead of +1)." + 
+            "\nRight-click to NEGATIVELY charge it (-1 on click instead of +1)");
     }
 
     public void DisableTools()

@@ -1,14 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class AudioTest : MonoBehaviour
 {
-
-    public TMP_FontAsset font;
-    public TMPro_FontAssetCreatorWindow wow;
 
     private float currentVolume;
 

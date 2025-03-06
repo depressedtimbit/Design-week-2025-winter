@@ -60,6 +60,7 @@ public class PuzzleManager : MonoBehaviour
             {
                 if (canLose)
                 {
+                    Debug.Log("game Lost");
                     AdditiveSceneManager.Instance.restartScene();
                 } else
                 {

@@ -1719,7 +1719,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Request: Verify Identity
+  m_text: 'Request: VGhlc2UK
 
     Awaiting Security Response:'
   m_isRightToLeft: 0

@@ -55,12 +55,14 @@ public class CurtainManager : MonoBehaviour
         float from = on ? 0 : 1;
         float to = on ? 1 : 0;
 
-        // cancel ongoing tweens on the curtain
-        LeanTween.cancel(gameObject);
+
 
         Image curtainImage = regularCurtain ? curtain : explosionCurtain;
 
-        return LeanTween.value(gameObject, from, to, time).setOnUpdate((float val) =>
+        // cancel ongoing tweens on the curtain
+        LeanTween.cancel(curtainImage.gameObject);
+
+        return LeanTween.value(curtainImage.gameObject, from, to, time).setOnUpdate((float val) =>
         {
             Color c = curtainImage.color;
             c.a = val;

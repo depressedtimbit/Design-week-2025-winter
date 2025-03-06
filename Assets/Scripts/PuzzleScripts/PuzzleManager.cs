@@ -35,7 +35,7 @@ public class PuzzleManager : MonoBehaviour
         {
             if(AdditiveSceneManager.Instance != null)
             {
-                AdditiveSceneManager.Instance.unloadScene(unlockedToolID);
+                AdditiveSceneManager.Instance.unloadScene(true, unlockedToolID);
             }
             else Debug.Log("PuzzleWon");
         }
@@ -50,7 +50,34 @@ public class PuzzleManager : MonoBehaviour
                 if (canLose)
                 {
                     Debug.Log("game Lost");
-                    AdditiveSceneManager.Instance.restartScene();
+                    //AdditiveSceneManager.Instance.restartScene();
+                    // turn screen white
+                    AudioManager.instance.PlaySound("explosion", 1, 0.1f, 1f, 0.1f);
+                    CurtainManager.instance.Fade(true, 0.05f, false).setOnComplete(() =>
+                    {
+                        AdditiveSceneManager.Instance.unloadScene(false);
+                    });
+
+                    // wait
+                    LeanTween.value(0, 1, 0.75f).setOnComplete(() =>
+                    {
+                        // fade black screen in
+                        CurtainManager.instance.Fade(true, 0.5f).setOnComplete(() =>
+                        {
+                            // fade white screen out
+                            CurtainManager.instance.Fade(false, 0.05f, false);
+
+                            // wait 0.5 sec
+                            LeanTween.value(0, 1, 0.5f).setOnComplete(() =>
+                            {
+                                // fade black screen out
+                                CurtainManager.instance.Fade(false, 0.5f).setOnComplete(() =>
+                                {
+  
+                                });
+                            });
+                        });
+                    });
                 } else
                 {
                     currentState[i].number = minNumber;

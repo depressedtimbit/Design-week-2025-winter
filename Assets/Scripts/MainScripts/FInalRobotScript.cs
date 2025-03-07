@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class FInalRobotScript : MonoBehaviour
 {
+    public static FInalRobotScript instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     public string sceneToLoad;
 
     public int RequiredTool;
@@ -16,7 +23,8 @@ public class FInalRobotScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (view == null){
+        if (view == null)
+        {
             Debug.LogWarning(gameObject.name + "has no set view!");
         }
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -27,11 +35,7 @@ public class FInalRobotScript : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (IsComplete)
-            {
-                ViewManager.Instance.ChangeView(view); 
-            }
-            else if (PlayerData.Instance.ToolStates[RequiredTool] == true)
+            if (PlayerData.Instance.ToolStates[RequiredTool] == true)
             {
                 UnlockDoor();
             }
@@ -43,10 +47,17 @@ public class FInalRobotScript : MonoBehaviour
         }
     }
 
+    public static void GoToFinalScene()
+    {
+        ViewManager.Instance.ChangeView(instance.view);
+
+    }
+
+
     void UnlockDoor()
     {
         AdditiveSceneManager.Instance.LoadScene(sceneToLoad, PView.gameObject);
-        IsComplete = true;
+        //IsComplete = true;
         spriteRenderer.sprite = UnlockedSprite;
     }
 }

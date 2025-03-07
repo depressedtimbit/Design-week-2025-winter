@@ -13,6 +13,7 @@ public class PuzzleManager : MonoBehaviour
     public static int maxNumber = 5;
     public static int minNumber = 0;
     private static bool canLose;
+    private static int puzzleIndex;
 
     private void Start()
     {
@@ -20,6 +21,7 @@ public class PuzzleManager : MonoBehaviour
         solution = puzzleData.puzzleSolution;
         canLose = puzzleData.canLose;
         unlockedToolID = puzzleData.unlockedToolID;
+        puzzleIndex = puzzleData.puzzleIndex;
     }
     public static void winCheck()
     {
@@ -32,16 +34,28 @@ public class PuzzleManager : MonoBehaviour
             }
         }
         // THE INPUT GETKEY IS A DEV SHORTCUT TO INSTANTLY COMPLETE A PUZZLE GET RID OF IT LATER
-        if (correct == solution.Length || Input.GetKey(KeyCode.F7))
+        if (correct == solution.Length || Input.GetKey(KeyCode.Tab))
         {
-            if(AdditiveSceneManager.Instance != null)
-            {
-                AdditiveSceneManager.Instance.unloadScene(true, unlockedToolID);
-            }
+            
 
             if (PlayerData.Instance != null)
             {
-                PlayerData.Instance.OnPuzzleSuccess(unlockedToolID - 1);
+
+
+                if (puzzleIndex == 3)
+                {
+                    AdditiveSceneManager.Instance.UnloadSceneAndNothingElse();
+
+                    FInalRobotScript.GoToFinalScene();
+                } else
+                {
+                    if (AdditiveSceneManager.Instance != null)
+                    {
+                        AdditiveSceneManager.Instance.unloadScene(true, unlockedToolID);
+                    }
+
+                    PlayerData.Instance.OnPuzzleSuccess(puzzleIndex);
+                }
             }
             else Debug.Log("PuzzleWon");
         }

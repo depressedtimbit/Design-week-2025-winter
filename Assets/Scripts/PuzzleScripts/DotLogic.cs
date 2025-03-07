@@ -21,6 +21,8 @@ public class DotLogic : MonoBehaviour
     // reference to this button's 3D graphic's script, so we can set the number
     private TestButton3D graphicScript3D;
 
+    public GameObject positiveParticles, negativeParticles;
+
     private void Start()
     {
         // disable spritrenderer and text, enable 3d graphic
@@ -84,7 +86,7 @@ public class DotLogic : MonoBehaviour
 
     private void OnMouseUp()
     {
-        AudioManager.instance.PlaySound("buttonUp", 1, 0.1f, 1f, 0.1f);
+        //AudioManager.instance.PlaySound("buttonUp", 1, 0.1f, 1f, 0.1f);
         graphicScript3D.MouseUp();
     }
 
@@ -149,6 +151,10 @@ public class DotLogic : MonoBehaviour
         positiveButton = true;
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         sr.color = Color.red;
+
+        positiveParticles.SetActive(true);
+        negativeParticles.SetActive(false);
+
     }
 
     public void SetNegative()
@@ -156,5 +162,9 @@ public class DotLogic : MonoBehaviour
         negativeButton = true;
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         sr.color = Color.blue;
+
+        negativeParticles.SetActive(true);
+        positiveParticles.SetActive(false);
+
     }
 }

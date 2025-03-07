@@ -121,6 +121,12 @@ public class AdditiveSceneManager : MonoBehaviour
         else Debug.LogError("Tried to unload a puzzle without one being loaded, this is bad!");
     }
 
+    public void UnloadSceneAndNothingElse()
+    {
+        SceneManager.UnloadSceneAsync(loadedScene);
+        deactivateOnSceneLoad.SetActive(inMainScreen);
+    }
+
     public void restartScene()
     {
         if (!inMainScreen)

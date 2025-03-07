@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6780959a37fa08d40903b735c473244d, type: 3}
   m_Name: buttonUp
   m_EditorClassIdentifier: 
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: e16635ee8335ac0439ebd71a7e6453e7, type: 3}
   subtitleDescription: 
   volume: 1

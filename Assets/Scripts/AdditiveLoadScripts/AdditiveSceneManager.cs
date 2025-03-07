@@ -40,6 +40,14 @@ public class AdditiveSceneManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayMusic("factory_ambience", 1f, "AMB");
+            AudioManager.instance.FadeMusicIn("AMB", 1f, 2f);
+        }
+    }
 
     // Update is called once per frame
     public void LoadScene(string additiveSceneToLoad, GameObject deactivateOnSceneLoad)
@@ -61,6 +69,9 @@ public class AdditiveSceneManager : MonoBehaviour
                 CurtainManager.instance.FadeOut(1);
 
                 deactivateOnSceneLoad.SetActive(inMainScreen);
+
+                print("fading out factory amb into bpuzzlel music");
+                AudioManager.instance.FadeMusicOut("AMB", 1f, "puzzle_music_loop", 0.3f);
             });
 
         }
@@ -71,6 +82,8 @@ public class AdditiveSceneManager : MonoBehaviour
     {
         if (!inMainScreen)
         {
+            AudioManager.instance.FadeMusicOut("AMB", 1f, "factory_ambience");
+
             inMainScreen = true;
 
             if (!win)

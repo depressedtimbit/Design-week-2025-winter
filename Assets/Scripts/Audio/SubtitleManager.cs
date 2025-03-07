@@ -33,6 +33,8 @@ public class SubtitleManager : MonoBehaviour
 
     public void DoSubtitle(string subText)
     {
+        if (subText.Length == 0) return;
+
         GameObject newSub = Instantiate(subtitlePrefab,transform);
 
         // set the instance's parent to our transform and set it as the first (top) sibling

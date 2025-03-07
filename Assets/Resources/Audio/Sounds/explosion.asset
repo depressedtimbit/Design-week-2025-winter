@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clip: {fileID: 8300000, guid: b2ee97faa1a8b8c43b4bd9f32b07784b, type: 3}
   subtitleDescription: explosion, ears ringing
-  volume: 1
+  volume: 0.75

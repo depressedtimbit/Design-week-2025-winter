@@ -93,6 +93,8 @@ public class AudioManager : MonoBehaviour
             audioSourcePrefab = Resources.Load<GameObject>("Audio/AudioSourceObject");
 
             masterMixer = Resources.Load<AudioMixer>("Audio/MasterMixer");
+
+            DontDestroyOnLoad(gameObject);
         } else
         {
             print("There are multiple AudioManagers - destroying new one");
@@ -131,6 +133,7 @@ public class AudioManager : MonoBehaviour
         }
 
         // all our audio will be processed - enforcing subtitles
+
         /*
         AudioClip[] rawClips = Resources.LoadAll<AudioClip>(rawAudioFileFolderName);
 
@@ -180,13 +183,19 @@ public class AudioManager : MonoBehaviour
 
 
 
-    public LTDescr FadeMusicOut(string source = "BGM", float fadeTime = 1f, string fadeInNew = "")
+    public LTDescr FadeMusicOut(string source = "BGM", float fadeTime = 1f, string fadeInNew = "", float fadeNewVolume = 1f)
     {
         AudioSource musicPlayer = loopPlayersDict[source];
         LeanTween.cancel(musicPlayer.gameObject);
         return LeanTween.value(musicPlayer.volume, 0, fadeTime).setOnUpdate((float val) =>
         {
             musicPlayer.volume = val;
+
+            if (fadeInNew != "")
+            {
+                PlayMusic(fadeInNew, 0, source);
+                FadeMusicIn(source, fadeNewVolume, fadeTime);
+            }
         });
 
     }
@@ -245,7 +254,8 @@ public class AudioManager : MonoBehaviour
         Sound soundToPlay = soundDict[sound];
 
         soundPlayer.volume = volume + Random.Range(-volumeVariation, volumeVariation);
-        soundPlayer.pitch = basePitch +  Random.Range(-pitchVariation, pitchVariation);
+        float p = basePitch + Random.Range(-pitchVariation, pitchVariation);
+        soundPlayer.pitch = p;
         soundPlayer.PlayOneShot(soundToPlay.clip);
 
         if (SubtitleManager.instance != null)

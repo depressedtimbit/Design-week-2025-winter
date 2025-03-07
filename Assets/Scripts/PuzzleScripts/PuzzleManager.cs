@@ -71,7 +71,7 @@ public class PuzzleManager : MonoBehaviour
                 {
                     //AdditiveSceneManager.Instance.restartScene();
                     // turn screen white
-                    AudioManager.instance.PlaySound("explosion", 1, 0.1f, 1f, 0.1f);
+                    AudioManager.instance.PlaySound("explosion", 1);
                     CurtainManager.instance.Fade(true, 0.05f, false).setOnComplete(() =>
                     {
                         AdditiveSceneManager.Instance.unloadScene(false);

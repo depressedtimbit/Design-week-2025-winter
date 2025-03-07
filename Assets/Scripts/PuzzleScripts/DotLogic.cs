@@ -65,7 +65,6 @@ public class DotLogic : MonoBehaviour
                     if (!foundConnected.Contains(foundConnected[i].connectedDots[j]) && foundConnected[i].connectedDots[j] != this)
                     {
                         foundConnected.Add(foundConnected[i].connectedDots[j]);
-                        Debug.Log(foundConnected[i].connectedDots[j]);
                     }
                 }
                 foundConnected[i].incrementNumber();
@@ -142,7 +141,6 @@ public class DotLogic : MonoBehaviour
 
     public void DisconnectDots(DotLogic otherDot)
     {
-        Debug.Log("cut");
         connectedDots.Remove(otherDot);
     }
 

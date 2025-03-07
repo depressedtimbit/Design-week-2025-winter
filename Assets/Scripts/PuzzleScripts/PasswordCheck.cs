@@ -16,6 +16,8 @@ public class PasswordCheck : MonoBehaviour
     public Transform rightChestMove;
     public GameObject dotPuzzle;
 
+    private PuzzleManager p;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -23,8 +25,9 @@ public class PasswordCheck : MonoBehaviour
         dotPuzzle.SetActive(false);
         EventSystem.current.SetSelectedGameObject(gameObject);
 
+        p = FindObjectOfType<PuzzleManager>();
+
         // if the player has already solved this robot's password, instantly bypass the password field
-        PuzzleManager p = FindObjectOfType<PuzzleManager>();
         if (PlayerData.Instance != null && PlayerData.Instance.puzzlePasswordCracked[p.puzzleData.puzzleIndex])
         {
             OnPasswordSolved();
@@ -35,7 +38,7 @@ public class PasswordCheck : MonoBehaviour
     {
         if (password.ToLower() == correctPassword.ToLower())
         {
-            Debug.Log("no");
+            if (PlayerData.Instance != null) PlayerData.Instance.puzzlePasswordCracked[p.puzzleData.puzzleIndex] = true;
             OnPasswordSolved();
 
         } else

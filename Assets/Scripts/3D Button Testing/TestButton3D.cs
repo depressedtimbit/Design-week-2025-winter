@@ -96,8 +96,6 @@ public class TestButton3D : MonoBehaviour
     {
         if (mousePressed) return;
 
-        print("mouse down");
-
         if (isSquare)
         {
             OnPressComplete();

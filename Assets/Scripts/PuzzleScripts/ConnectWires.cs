@@ -89,7 +89,6 @@ public class ConnectWires : MonoBehaviour
                     RaycastHit2D lineHit = Physics2D.Raycast(clickPoint, Vector2.zero);
                     if (lineHit.collider != null && lineHit.collider.CompareTag("Wire"))
                     {
-                            Debug.Log("hi");
                             CutLine(lineHit.collider.gameObject);
                     }
                 }
@@ -163,7 +162,6 @@ public class ConnectWires : MonoBehaviour
             {
                 if (dots != wireConnection.dot1 && dots.connectedDots.Contains(wireConnection.dot1))
                 {
-                    Debug.Log("connected");
                     wireConnection.dot1.connectedDots.Remove(dots);
                     dots.connectedDots.Remove(wireConnection.dot1);
                 }

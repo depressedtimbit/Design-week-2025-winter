@@ -70,7 +70,6 @@ public class AdditiveSceneManager : MonoBehaviour
 
                 deactivateOnSceneLoad.SetActive(inMainScreen);
 
-                print("fading out factory amb into bpuzzlel music");
                 AudioManager.instance.FadeMusicOut("AMB", 1f, "puzzle_music_loop", 0.3f);
             });
 

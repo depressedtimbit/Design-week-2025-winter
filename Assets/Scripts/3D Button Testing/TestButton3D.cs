@@ -106,6 +106,8 @@ public class TestButton3D : MonoBehaviour
         mousePressed = true;
         pressFinished = false;
 
+        LeanTween.cancel(gameObject);
+
         LeanTween.value(gameObject, 0, 1, pressDownTime).setOnUpdate((float val) =>
         {
             Vector3 pos = button.localPosition;
@@ -129,6 +131,7 @@ public class TestButton3D : MonoBehaviour
 
     public void MouseUp()
     {
+
         if (!mousePressed) return;
 
         mousePressed = false;

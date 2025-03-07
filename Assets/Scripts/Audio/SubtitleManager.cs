@@ -52,7 +52,7 @@ public class SubtitleManager : MonoBehaviour
         SetTextAlpha(dialogueText, 1);
 
 
-        float displayTime = dialogue.Length * dialogueDisplayTimePerLetter;
+        float displayTime = (dialogue.Length + 1) * dialogueDisplayTimePerLetter;
 
         float benchmark = dialogueDisplayTimePerLetter;
         int displayingLetters = 0;
@@ -72,7 +72,7 @@ public class SubtitleManager : MonoBehaviour
                 displayingLetters++;
                 benchmark += dialogueDisplayTimePerLetter;
 
-                dialogueText.text = dialogue.Substring(0, displayingLetters) + (loadInFromCenter ? "" : new string(Enumerable.Repeat(' ', dialogue.Length - displayingLetters).ToArray()));
+                dialogueText.text = dialogue.Substring(0, Mathf.Min(displayingLetters, dialogue.Length)) + (loadInFromCenter ? "" : new string(Enumerable.Repeat(' ', dialogue.Length - displayingLetters).ToArray()));
             }
         });
 

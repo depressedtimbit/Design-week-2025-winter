@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class AdditiveSceneManager : MonoBehaviour
 {
-    public static AdditiveSceneManager Instance { get; private set;}
-    
+    public static AdditiveSceneManager Instance { get; private set; }
+
     // set to true while the main scene is active, i.e. when no puzzles / overlays are active
     // when false, ignores keypresses / clicks that would change the view
     private bool inMainScreen = true;
@@ -22,10 +22,10 @@ public class AdditiveSceneManager : MonoBehaviour
     //public GameObject deactivateOnSceneLoad;
 
     private Scene loadedScene;
-    
+
     private GameObject deactivateOnSceneLoad;
     private string additiveSceneToLoad;
-    
+
     void Awake()
     {
         if (Instance == null)
@@ -40,73 +40,103 @@ public class AdditiveSceneManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayMusic("factory_ambience", 1f, "AMB");
+            AudioManager.instance.FadeMusicIn("AMB", 1f, 2f);
+        }
+    }
 
     // Update is called once per frame
     public void LoadScene(string additiveSceneToLoad, GameObject deactivateOnSceneLoad)
     {
         if (inMainScreen)
-            {
-                inMainScreen = false;
-                this.additiveSceneToLoad = additiveSceneToLoad;
-                this.deactivateOnSceneLoad = deactivateOnSceneLoad;
-                CurtainManager.instance.FadeIn(1).setOnComplete(() =>
-                {
-                    // additively load the scene
-                    var parameters = new LoadSceneParameters(LoadSceneMode.Additive);
-                    loadedScene = SceneManager.LoadScene(additiveSceneToLoad, parameters);
-
-                    // https://discussions.unity.com/t/find-gameobject-in-another-loaded-scene/245359/2
-                    // use scene.getrootgameobjects if we need em later
-
-                    CurtainManager.instance.FadeOut(1);
-
-                    deactivateOnSceneLoad.SetActive(inMainScreen);
-                });
-
-            }
-        else Debug.LogError("Tried to Load a puzzle whilst loaded in a puzzle, this is bad!");
-    }
-
-    public void unloadScene(int unlockedToolID)
-    {
-        if (!inMainScreen)
         {
-            inMainScreen = true;
+            inMainScreen = false;
+            this.additiveSceneToLoad = additiveSceneToLoad;
+            this.deactivateOnSceneLoad = deactivateOnSceneLoad;
             CurtainManager.instance.FadeIn(1).setOnComplete(() =>
             {
-                // unload the test scene 
-                SceneManager.UnloadSceneAsync(loadedScene);
+                // additively load the scene
+                var parameters = new LoadSceneParameters(LoadSceneMode.Additive);
+                loadedScene = SceneManager.LoadScene(additiveSceneToLoad, parameters);
+
+                // https://discussions.unity.com/t/find-gameobject-in-another-loaded-scene/245359/2
+                // use scene.getrootgameobjects if we need em later
+
+                CurtainManager.instance.FadeOut(1);
 
                 deactivateOnSceneLoad.SetActive(inMainScreen);
 
-                //set player as having won the puzzle
-                PlayerData.Instance.ToolStates[unlockedToolID] = true;
-
-                CurtainManager.instance.FadeOut(1).setOnComplete(() => 
-                {
-                    switch (unlockedToolID)
-                    {
-                        case 1:
-                            SubtitleManager.instance.DoDialogue("I got the saw tool!");
-                            break;
-                        case 2:
-                            SubtitleManager.instance.DoDialogue("I got the welding torch!");
-                            break;
-                        case 3:
-                            SubtitleManager.instance.DoDialogue("I got the electrical probe!");
-                        break;
-
-
-                        default: Debug.Log("invalid Tool ID"); 
-                        break;
-                    }
-                });
-                
-
-                
+                AudioManager.instance.FadeMusicOut("AMB", 1f, "puzzle_music_loop", 0.3f);
             });
+
+        }
+        else Debug.LogError("Tried to Load a puzzle whilst loaded in a puzzle, this is bad!");
+    }
+
+    public void unloadScene(bool win, int unlockedToolID = 1)
+    {
+        if (!inMainScreen)
+        {
+            AudioManager.instance.FadeMusicOut("AMB", 1f, "factory_ambience");
+
+            inMainScreen = true;
+
+            if (!win)
+            {
+                SceneManager.UnloadSceneAsync(loadedScene);
+                deactivateOnSceneLoad.SetActive(inMainScreen);
+            }
+            else
+            {
+                CurtainManager.instance.FadeIn(1).setOnComplete(() =>
+                {
+                    // unload the test scene 
+                    SceneManager.UnloadSceneAsync(loadedScene);
+
+                    deactivateOnSceneLoad.SetActive(inMainScreen);
+
+                    //set player as having won the puzzle
+
+                    PlayerData.Instance.ToolStates[unlockedToolID] = true;
+
+                    CurtainManager.instance.FadeOut(1).setOnComplete(() =>
+                    {
+                        switch (unlockedToolID)
+                        {
+                            case 1:
+                                SubtitleManager.instance.DoDialogue("I got the saw tool!");
+                                break;
+                            case 2:
+                                SubtitleManager.instance.DoDialogue("I got the welding torch!");
+                                break;
+                            case 3:
+                                SubtitleManager.instance.DoDialogue("I got the electrical probe!");
+                                break;
+
+
+                            default:
+                                Debug.Log("invalid Tool ID");
+                                break;
+                        }
+                    });
+
+
+                });
+            }
+
+
         }
         else Debug.LogError("Tried to unload a puzzle without one being loaded, this is bad!");
+    }
+
+    public void UnloadSceneAndNothingElse()
+    {
+        SceneManager.UnloadSceneAsync(loadedScene);
+        deactivateOnSceneLoad.SetActive(inMainScreen);
     }
 
     public void restartScene()

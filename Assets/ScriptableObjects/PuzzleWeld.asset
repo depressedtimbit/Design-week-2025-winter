@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20967367c25f7d64b90657baef9f3e55, type: 3}
   m_Name: PuzzleWeld
   m_EditorClassIdentifier: 
+  puzzleIndex: 2
   canLose: 1
   puzzleSolution: 040000000500000002000000030000000500000003000000
   unlockedToolID: 3

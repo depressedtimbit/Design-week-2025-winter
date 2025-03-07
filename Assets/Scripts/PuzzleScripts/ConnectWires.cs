@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using TMPro;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class ConnectWires : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class ConnectWires : MonoBehaviour
     private int positiveButtons = 0;
     private int negativeButtons = 0;
     public static bool probingActive = false;
-    public TextMeshProUGUI currentTool;
+    public TextMeshProUGUI currentToolTitle, currentToolDescription;
     public TextMeshProUGUI wiresLeft;
     private int wireCount;
     public int wireLimit;
@@ -27,7 +28,8 @@ public class ConnectWires : MonoBehaviour
 
     private void Start()
     {
-        currentTool.text = ("Currently Using: " + "None");
+        currentToolTitle.text = ("Currently Using: " + "None");
+        currentToolDescription.text = "";
         WireConnections[] startingWires = FindObjectsOfType<WireConnections>();
 
         foreach (WireConnections wire in startingWires)
@@ -87,7 +89,6 @@ public class ConnectWires : MonoBehaviour
                     RaycastHit2D lineHit = Physics2D.Raycast(clickPoint, Vector2.zero);
                     if (lineHit.collider != null && lineHit.collider.CompareTag("Wire"))
                     {
-                            Debug.Log("hi");
                             CutLine(lineHit.collider.gameObject);
                     }
                 }
@@ -105,7 +106,11 @@ public class ConnectWires : MonoBehaviour
 
     void CreateWire(GameObject start, GameObject end)
     {
-        GameObject newWire = Instantiate(wirePrefab, this.gameObject.transform);
+        GameObject newWire = Instantiate(wirePrefab);
+        if (newWire.scene != this.gameObject.scene)
+        {
+            SceneManager.MoveGameObjectToScene(newWire, this.gameObject.scene);
+        }
         LineRenderer lr = newWire.GetComponent<LineRenderer>();
         EdgeCollider2D ec = newWire.GetComponent<EdgeCollider2D>();
         Vector2[] linePoints = { start.transform.position, end.transform.position };
@@ -157,7 +162,6 @@ public class ConnectWires : MonoBehaviour
             {
                 if (dots != wireConnection.dot1 && dots.connectedDots.Contains(wireConnection.dot1))
                 {
-                    Debug.Log("connected");
                     wireConnection.dot1.connectedDots.Remove(dots);
                     dots.connectedDots.Remove(wireConnection.dot1);
                 }
@@ -175,8 +179,8 @@ public class ConnectWires : MonoBehaviour
         canCut = false;
         canProbe = false;
         probingActive = false;
-        currentTool.text = ("Currently Using: " + "Weld" +
-            "\nRight-click a circle button and a square button to create a wire connecting them.");
+        currentToolTitle.text = ("Currently Using: " + "Weld");
+        currentToolDescription.text = "Right-click a circle button and a square button to create a wire connecting them.";
     }
 
     public void EnableCutting()
@@ -185,8 +189,8 @@ public class ConnectWires : MonoBehaviour
         canWeld = false;
         canProbe = false;
         probingActive = false;
-        currentTool.text = ("Currently Using: " + "Saw" +
-            "\nRight-click wires to cut them.");
+        currentToolTitle.text = "Currently Using: " + "Saw";
+        currentToolDescription.text = "Right-click wires to cut them.";
     }
 
     public void EnableProbe()
@@ -195,9 +199,8 @@ public class ConnectWires : MonoBehaviour
         canWeld = false;
         canCut = false;
         probingActive = true;
-        currentTool.text = ("Currently Using: " + "Probe" +
-            "\nLeft-click a button to POSITIVELY charge it (+2 on click instead of +1)." + 
-            "\nRight-click to NEGATIVELY charge it (-1 on click instead of +1)");
+        currentToolTitle.text = "Currently Using: " + "Probe";
+        currentToolDescription.text = "Left-click a button to POSITIVELY charge it (+2 on click instead of +1)." + "\nRight-click to NEGATIVELY charge it (-1 on click instead of +1)";
     }
 
     public void DisableTools()
@@ -206,7 +209,8 @@ public class ConnectWires : MonoBehaviour
         canWeld = false;
         canProbe = false;
         probingActive = false;
-        currentTool.text = ("Currently Using: " + "None");
+        currentToolTitle.text = "Currently Using: " + "None";
+        currentToolDescription.text = "";
     }
 
 }

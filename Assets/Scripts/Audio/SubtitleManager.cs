@@ -33,10 +33,11 @@ public class SubtitleManager : MonoBehaviour
 
     public void DoSubtitle(string subText)
     {
-        GameObject newSub = Instantiate(subtitlePrefab);
+        if (subText.Length == 0) return;
+
+        GameObject newSub = Instantiate(subtitlePrefab,transform);
 
         // set the instance's parent to our transform and set it as the first (top) sibling
-        newSub.transform.parent = transform;
         newSub.transform.SetAsFirstSibling();
 
         newSub.GetComponent<SubtitleObject>().InitSubtitle(subText);
@@ -51,7 +52,7 @@ public class SubtitleManager : MonoBehaviour
         SetTextAlpha(dialogueText, 1);
 
 
-        float displayTime = dialogue.Length * dialogueDisplayTimePerLetter;
+        float displayTime = (dialogue.Length + 1) * dialogueDisplayTimePerLetter;
 
         float benchmark = dialogueDisplayTimePerLetter;
         int displayingLetters = 0;
@@ -71,7 +72,7 @@ public class SubtitleManager : MonoBehaviour
                 displayingLetters++;
                 benchmark += dialogueDisplayTimePerLetter;
 
-                dialogueText.text = dialogue.Substring(0, displayingLetters) + (loadInFromCenter ? "" : new string(Enumerable.Repeat(' ', dialogue.Length - displayingLetters).ToArray()));
+                dialogueText.text = dialogue.Substring(0, Mathf.Min(displayingLetters, dialogue.Length)) + (loadInFromCenter ? "" : new string(Enumerable.Repeat(' ', dialogue.Length - displayingLetters).ToArray()));
             }
         });
 

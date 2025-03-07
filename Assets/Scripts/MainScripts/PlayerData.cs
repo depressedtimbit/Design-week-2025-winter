@@ -9,6 +9,8 @@ public class PlayerData : MonoBehaviour
 
     public int PlayerView = 0;
     public bool[] DoorStates = new bool[4]{true, false, false, false};
+    public RobotScript[] robotSprites;
+    public bool[] puzzlePasswordCracked = new bool[4];
 
     // Awake is called before the first frame update
     void Awake()
@@ -23,6 +25,17 @@ public class PlayerData : MonoBehaviour
             Debug.Log("Multiple PlayerData's exist, deleting the latest one");
             Destroy(this);
         }
+    }
+    
+    public void OnPuzzleSuccess(int puzzleIndex)
+    {
+        if (puzzleIndex >= 0 && puzzleIndex < robotSprites.Length)
+            robotSprites[puzzleIndex].OnPuzzleComplete();
+    }
+
+    public void OnPasswordSolved(int puzzleIndex)
+    {
+        puzzlePasswordCracked[puzzleIndex] = true;
     }
 
     

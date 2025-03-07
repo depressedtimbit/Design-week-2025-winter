@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3481157143832116214}
   - component: {fileID: 3442290491596570240}
   - component: {fileID: 2763163263004765502}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: wirePrefab
   m_TagString: Wire
   m_Icon: {fileID: 0}

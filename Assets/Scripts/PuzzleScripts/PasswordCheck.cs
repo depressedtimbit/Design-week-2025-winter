@@ -16,26 +16,43 @@ public class PasswordCheck : MonoBehaviour
     public Transform rightChestMove;
     public GameObject dotPuzzle;
 
+    private PuzzleManager p;
+
     // Start is called before the first frame update
     private void Start()
     {
         passwordInput.interactable = true;
         dotPuzzle.SetActive(false);
         EventSystem.current.SetSelectedGameObject(gameObject);
+
+        p = FindObjectOfType<PuzzleManager>();
+
+        // if the player has already solved this robot's password, instantly bypass the password field
+        if (PlayerData.Instance != null && PlayerData.Instance.puzzlePasswordCracked[p.puzzleData.puzzleIndex])
+        {
+            OnPasswordSolved();
+        }
     }
 
     public void OnEndedInputField(string password)
     {
         if (password.ToLower() == correctPassword.ToLower())
         {
-            passwordUI.SetActive(false);
-            dotPuzzle.SetActive(true);
-            ChestMove();
+            if (PlayerData.Instance != null) PlayerData.Instance.puzzlePasswordCracked[p.puzzleData.puzzleIndex] = true;
+            OnPasswordSolved();
 
         } else
         {
+
             passwordInput.text = "";
         }
+    }
+
+    private void OnPasswordSolved()
+    {
+        passwordUI.SetActive(false);
+        dotPuzzle.SetActive(true);
+        ChestMove();
     }
 
     private void ChestMove()
